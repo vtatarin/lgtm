@@ -1,0 +1,40 @@
+---
+# How to install:
+# pre-commit install
+
+default_language_version:
+  python: python3
+
+# How temporary skip one of hooks: https://pre-commit.com/#temporarily-disabling-hooks
+
+repos:
+# Terraform
+- repo: https://github.com/antonbabenko/pre-commit-terraform
+  # https://github.com/antonbabenko/pre-commit-terraform/releases
+  rev: v1.89.1
+  hooks:
+  - id: terraform_fmt
+  - id: terraform_validate
+    args:
+    - --hook-config=--retry-once-with-cleanup=true
+  - id: terraform_providers_lock
+    args:
+    - --hook-config=--mode=only-check-is-current-lockfile-cross-platform
+    - --args=-platform=linux_amd64
+    - --args=-platform=darwin_arm64
+
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+  hooks:
+    # Git style
+    - id: check-merge-conflict
+    - id: check-vcs-permalinks
+    - id: no-commit-to-branch
+
+    # Common errors
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+      args: [--markdown-linebreak-ext=md]
+
+    # Cross platform
+    - id: check-case-conflict
