@@ -86,7 +86,7 @@ jobs:
 
     - name: Terraform Plan - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
       id: plan
-      run: terraform -chdir=terraform/${TF_DIR} plan -out ${{ matrix['workspace'] }}.plan -var-file=../../environments/aws/${TF_VARS_FILE}/terraform.tfvars
+      run: terraform -chdir=terraform/${TF_DIR} plan -out ${TF_VARS_FILE//\//-}.plan -var-file=../../environments/aws/${TF_VARS_FILE}/terraform.tfvars
 
     - name: Post Plan - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
       if: always() && github.ref != 'refs/heads/main' && (steps.plan.outcome == 'success' || steps.plan.outcome == 'failure')
