@@ -1,0 +1,70 @@
+name: Terraform CI/CD
+
+on:
+  pull_request:
+    branches:
+    - main
+    paths:
+    - terraform/**
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  terraform:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        workspace: [
+          "437023642520/us-east-2/sandbox"
+        ]
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TF_IN_AUTOMATION: true
+      TF_VARS_FILE: ${{ matrix['workspace'] }}
+      TF_DIR: services/eks
+    steps:
+    - uses: actions/checkout@v4
+    - uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ vars.AWS_IAM_ROLE_ARN }}
+        aws-region: ${{ vars.AWS_REGION }}
+    # https://github.com/hashicorp/setup-terraform/issues/298
+    - name: Get Terraform Version
+      id: tf_version
+      run: |
+        echo "value=$(cat .terraform-version)" >> $GITHUB_OUTPUT
+    - uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: ${{ steps.tf_version.outputs.value }}
+
+    - name: Terraform Init - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
+      id: init
+      run: terraform -chdir=terraform/${TF_DIR} init
+
+    - name: Post Init - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
+      if: always() && github.ref != 'refs/heads/main' && (steps.init.outcome == 'success' || steps.init.outcome == 'failure')
+      uses: Jimdo/terraform-pr-commenter@main
+      with:
+        commenter_type: init
+        commenter_input: ${{ format('{0}{1}', steps.init.outputs.stdout, steps.init.outputs.stderr) }}
+        commenter_exitcode: ${{ steps.init.outputs.exitcode }}
+
+    - name: Terraform Plan - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
+      id: plan
+      run: terraform -chdir=terraform/${TF_DIR} plan -out ${TF_VARS_FILE//\//-}.plan -var-file=../../environments/aws/${TF_VARS_FILE}/terraform.tfvars
+
+    - name: Post Plan - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
+      if: always() && github.ref != 'refs/heads/main' && (steps.plan.outcome == 'success' || steps.plan.outcome == 'failure')
+      uses: Jimdo/terraform-pr-commenter@main
+      with:
+        commenter_type: plan
+        commenter_input: ${{ format('{0}{1}', steps.plan.outputs.stdout, steps.plan.outputs.stderr) }}
+        commenter_exitcode: ${{ steps.plan.outputs.exitcode }}
+
+    - name: Terraform Apply - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
+      id: apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform -chdir=terraform/${TF_DIR} apply workspace.plan -var-file=../../environments/aws/${TF_VARS_FILE}/terraform.tfvars
