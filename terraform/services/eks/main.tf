@@ -9,6 +9,15 @@ data "aws_subnets" "eks" {
   }
 }
 
+data "terraform_remote_state" "github_oidc" {
+  backend = "s3"
+  config = {
+    bucket = "lgtm-playground-tfstate-20240510003852147300000001"
+    key    = "global/github-oidc"
+    region = "us-east-2"
+  }
+}
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.10"
@@ -48,4 +57,19 @@ module "eks" {
   cluster_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
   enable_cluster_creator_admin_permissions = true
+
+  access_entries = {
+    example = {
+      principal_arn = data.terraform_remote_state.github_oidc.outputs.cicd_iam_role_arn
+
+      policy_associations = {
+        example = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
+    }
+  }
 }
