@@ -40,38 +40,6 @@ jobs:
       with:
         terraform_version: ${{ steps.tf_version.outputs.value }}
 
-    # - name: test
-    #   id: test
-    #   run: |
-    #     aws sts get-caller-identity
-    #     env
-
-    # # if: github.event.review.state != 'approved'
-    # - name: Get changed dirs
-    #   id: changed-dirs
-    #   uses: tj-actions/changed-files@v44
-    #   with:
-    #     files: terraform/**/*.{tf,tfvars}  # Alternatively using: `docs/**`
-    #     files_ignore: docs/static.js
-    # - name: Echo
-    #   run: echo ${{ steps.get_changed.outputs.changed }}
-
-    # - name: Get PR ID
-    #   id: pr-id
-    #   shell: bash
-    #   env:
-    #     GITHUB_REF: ${{ inputs.github_ref }}
-    #   run: |
-    #     PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-    #     echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_OUTPUT
-
-    # - name: Terraform Plan
-    #   uses: ./.github/plan
-    #   with:
-    #     terraform_directory: "terraform"
-    #     pr_id: ${{ steps.pr-id.outputs.PR_NUMBER }}
-
-
     - name: Terraform Init - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
       id: init
       run: terraform -chdir=terraform/${TF_DIR} init
