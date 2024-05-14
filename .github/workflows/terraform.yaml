@@ -6,6 +6,9 @@ on:
     - main
     paths:
     - terraform/**
+  push:
+    branches:
+      - main
 
 permissions:
   id-token: write
