@@ -39,6 +39,7 @@ module "eks" {
     }
   }
 
+
   vpc_id                    = var.vpc_id
   subnet_ids                = data.aws_subnets.eks.ids
   cluster_service_ipv4_cidr = "10.100.0.0/16"

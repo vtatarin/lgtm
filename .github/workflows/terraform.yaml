@@ -1,0 +1,97 @@
+name: Terraform CI/CD
+
+on:
+  pull_request:
+    branches:
+    - main
+    paths:
+    - terraform/**
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  terraform:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        workspace: [
+          "437023642520/us-east-2/sandbox"
+        ]
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TF_IN_AUTOMATION: true
+      TF_VARS_FILE: ${{ matrix['workspace'] }}
+      TF_DIR: services/eks
+    steps:
+    - uses: actions/checkout@v4
+    - uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ vars.AWS_IAM_ROLE_ARN }}
+        aws-region: ${{ vars.AWS_REGION }}
+    # https://github.com/hashicorp/setup-terraform/issues/298
+    - name: Get Terraform Version
+      id: tf_version
+      run: |
+        echo "value=$(cat .terraform-version)" >> $GITHUB_OUTPUT
+    - uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: ${{ steps.tf_version.outputs.value }}
+
+    - name: test
+      id: test
+      run: |
+        aws sts get-caller-identity
+        env
+
+    # # if: github.event.review.state != 'approved'
+    # - name: Get changed dirs
+    #   id: changed-dirs
+    #   uses: tj-actions/changed-files@v44
+    #   with:
+    #     files: terraform/**/*.{tf,tfvars}  # Alternatively using: `docs/**`
+    #     files_ignore: docs/static.js
+    # - name: Echo
+    #   run: echo ${{ steps.get_changed.outputs.changed }}
+
+    # - name: Get PR ID
+    #   id: pr-id
+    #   shell: bash
+    #   env:
+    #     GITHUB_REF: ${{ inputs.github_ref }}
+    #   run: |
+    #     PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+    #     echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_OUTPUT
+
+    # - name: Terraform Plan
+    #   uses: ./.github/plan
+    #   with:
+    #     terraform_directory: "terraform"
+    #     pr_id: ${{ steps.pr-id.outputs.PR_NUMBER }}
+
+
+    - name: Terraform Init - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
+      id: init
+      run: terraform -chdir=${TF_DIR} init
+
+    - name: Post Init - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
+      if: always() && github.ref != 'refs/heads/main' && (steps.init.outcome == 'success' || steps.init.outcome == 'failure')
+      uses: Jimdo/terraform-pr-commenter@main
+      with:
+        commenter_type: init
+        commenter_input: ${{ format('{0}{1}', steps.init.outputs.stdout, steps.init.outputs.stderr) }}
+        commenter_exitcode: ${{ steps.init.outputs.exitcode }}
+
+    - name: Terraform Plan - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
+      id: plan
+      run: terraform -chdir=${TF_DIR} plan -out ${{ matrix['workspace'] }}.plan -var-file=environments/aws/${TF_VARS_FILE}/terraform.tfvars
+
+    - name: Post Plan - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
+      if: always() && github.ref != 'refs/heads/main' && (steps.plan.outcome == 'success' || steps.plan.outcome == 'failure')
+      uses: Jimdo/terraform-pr-commenter@main
+      with:
+        commenter_type: plan
+        commenter_input: ${{ format('{0}{1}', steps.plan.outputs.stdout, steps.plan.outputs.stderr) }}
+        commenter_exitcode: ${{ steps.plan.outputs.exitcode }}
