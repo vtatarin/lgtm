@@ -40,11 +40,11 @@ jobs:
       with:
         terraform_version: ${{ steps.tf_version.outputs.value }}
 
-    - name: test
-      id: test
-      run: |
-        aws sts get-caller-identity
-        env
+    # - name: test
+    #   id: test
+    #   run: |
+    #     aws sts get-caller-identity
+    #     env
 
     # # if: github.event.review.state != 'approved'
     # - name: Get changed dirs
@@ -95,3 +95,8 @@ jobs:
         commenter_type: plan
         commenter_input: ${{ format('{0}{1}', steps.plan.outputs.stdout, steps.plan.outputs.stderr) }}
         commenter_exitcode: ${{ steps.plan.outputs.exitcode }}
+
+    - name: Terraform Apply - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
+      id: apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform -chdir=terraform/${TF_DIR} apply workspace.plan -var-file=../../environments/aws/${TF_VARS_FILE}/terraform.tfvars

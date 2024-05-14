@@ -54,15 +54,26 @@ module "eks" {
     }
   }
 
-  cluster_enabled_log_types                = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
-  enable_cluster_creator_admin_permissions = true
+  cluster_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
   access_entries = {
-    example = {
+    "cicd" = {
       principal_arn = data.terraform_remote_state.github_oidc.outputs.cicd_iam_role_arn
 
       policy_associations = {
-        example = {
+        admin = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
+    }
+    "valerii.tatarin" = {
+      principal_arn = "arn:aws:iam::437023642520:user/valerii.tatarin"
+
+      policy_associations = {
+        admin = {
           policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
           access_scope = {
             type = "cluster"
