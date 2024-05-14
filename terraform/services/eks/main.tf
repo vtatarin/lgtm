@@ -43,7 +43,7 @@ module "eks" {
   subnet_ids                = data.aws_subnets.eks.ids
   cluster_service_ipv4_cidr = "10.100.0.0/16"
 
-  # Init node group for basic workloads to run (e.g. Karpenter, etc)
+  # Init node group for basic workloads to run (e.g. Karpenter, etc.)
   eks_managed_node_groups = {
     init = {
       min_size     = 1

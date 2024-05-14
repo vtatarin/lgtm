@@ -70,4 +70,4 @@ jobs:
     - name: Terraform Apply - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
       id: apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform -chdir=terraform/${TF_DIR} apply ${TF_VARS_FILE//\//-}.plan -var-file=../../environments/aws/${TF_VARS_FILE}/terraform.tfvars
+      run: terraform -chdir=terraform/${TF_DIR} apply ${TF_VARS_FILE//\//-}.plan
