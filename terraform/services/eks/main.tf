@@ -54,8 +54,7 @@ module "eks" {
     }
   }
 
-  cluster_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
-
+  cluster_enabled_log_types                = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
   enable_cluster_creator_admin_permissions = true
 
   access_entries = {
