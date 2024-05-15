@@ -4,8 +4,6 @@ description: Umbrealla chart for Karpenter
 type: application
 version: 0.0.1
 appVersion: 0.36.0
-sources:
-  - https://github.com/aws/karpenter-provider-aws/
 dependencies:
   - name: argo-cd
     alias: argocd
