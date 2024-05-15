@@ -1,11 +1,11 @@
 global:
   logging:
     format: json
-  server:
-    ingressGrpc:
-      isAWSALB: true
-      enabled: true
-      pathType: ImplementationSpecific
+  # server:
+    # ingressGrpc:
+    #   isAWSALB: true
+    #   enabled: true
+    #   pathType: ImplementationSpecific
     # ingress:
     #   https: true
     #   enabled: true
@@ -18,5 +18,5 @@ global:
       #   alb.ingress.kubernetes.io/scheme: internal
       #   alb.ingress.kubernetes.io/ssl-redirect: '443'
       #   alb.ingress.kubernetes.io/target-type: ip
-    metrics:
-      enabled: true
+    # metrics:
+    #   enabled: true
