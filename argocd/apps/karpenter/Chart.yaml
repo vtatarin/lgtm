@@ -5,9 +5,9 @@ type: application
 version: 0.0.1
 appVersion: 0.36.0
 sources:
-  - https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
+  - https://github.com/aws/karpenter-provider-aws/
 dependencies:
   - name: argo-cd
     alias: argocd
     version: ~0.36.0
-    repository: https://github.com/aws/karpenter-provider-aws/
+    repository: oci://public.ecr.aws/karpenter
