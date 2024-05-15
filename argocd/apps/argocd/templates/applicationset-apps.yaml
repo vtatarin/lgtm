@@ -5,8 +5,6 @@ metadata:
   name: apps
   namespace: argocd
 spec:
-  goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
   generators:
   - git:
       repoURL: git@github.com:vtatarin/lgtm.git
@@ -15,16 +13,16 @@ spec:
       - path: argocd/apps/*
   template:
     metadata:
-      name: '{{.path.basename}}'
+      name: '{{path.basename}}'
     spec:
       project: default
       source:
         repoURL: git@github.com:vtatarin/lgtm.git
         targetRevision: argocd/init
-        path: '{{.path.path}}'
+        path: '{{path}}'
       destination:
         name: in-cluster
-        namespace: '{{.path.basename}}'
+        namespace: '{{path.basename}}'
       syncPolicy:
         automated: {}
         syncOptions:
