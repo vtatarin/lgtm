@@ -1,0 +1,30 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: git@github.com:vtatarin/lgtm.git
+      revision: argocd/init
+      directories:
+      - path: argocd/apps/*
+  template:
+    metadata:
+      name: '{{"{{ path.basename }}"}}'
+    spec:
+      project: default
+      source:
+        repoURL: git@github.com:vtatarin/lgtm.git
+        targetRevision: argocd/init
+        path: '{{"{{ path }}"}}'
+      destination:
+        name: in-cluster
+        namespace: '{{"{{ path.basename }}"}}'
+      syncPolicy:
+        automated: {}
+        syncOptions:
+        - CreateNamespace=true
+        - Delete=false
