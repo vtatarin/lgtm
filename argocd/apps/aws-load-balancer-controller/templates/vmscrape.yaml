@@ -1,0 +1,13 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: lb
+spec:
+  endpoints:
+    - interval: 30s
+      path: /metrics
+      port: metrics-server
+  namespaceSelector:
+    matchNames: ["{{ .Release.Namespace }}"]
+  selector:
+    matchLabels: {{ include "aws-load-balancer-controller.selectorLabels" .Subcharts.lb | nindent 6 }}
