@@ -1,0 +1,22 @@
+global:
+  logging:
+    format: json
+  server:
+    ingressGrpc:
+      isAWSALB: true
+      enabled: true
+      pathType: ImplementationSpecific
+    # ingress:
+    #   https: true
+    #   enabled: true
+    #   controller: aws
+      # annotations:
+      #   kubernetes.io/ingress.class: alb
+      #   alb.ingress.kubernetes.io/group.name: argocd
+      #   alb.ingress.kubernetes.io/backend-protocol: HTTPS
+      #   alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+      #   alb.ingress.kubernetes.io/scheme: internal
+      #   alb.ingress.kubernetes.io/ssl-redirect: '443'
+      #   alb.ingress.kubernetes.io/target-type: ip
+    metrics:
+      enabled: true

@@ -1,0 +1,13 @@
+apiVersion: v2
+name: argocd
+description: Umbrealla chart for ArgoCD
+type: application
+version: 0.0.1
+appVersion: v2.11.0
+sources:
+  - https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
+dependencies:
+  - name: argo-cd
+    alias: argocd
+    version: ~6.9.2
+    repository: https://argoproj.github.io/argo-helm
