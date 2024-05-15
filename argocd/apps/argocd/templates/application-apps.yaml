@@ -9,7 +9,7 @@ spec:
   goTemplateOptions: ["missingkey=error"]
   generators:
   - git:
-      repoURL: https://github.com/vtatarin/lgtm.git
+      repoURL: git@github.com:vtatarin/lgtm.git
       revision: argocd/init
       directories:
       - path: argocd/apps/*
@@ -19,7 +19,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/vtatarin/lgtm.git
+        repoURL: git@github.com:vtatarin/lgtm.git
         targetRevision: argocd/init
         path: '{{.path.path}}'
       destination:
