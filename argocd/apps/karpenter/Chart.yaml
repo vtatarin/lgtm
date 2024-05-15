@@ -5,7 +5,6 @@ type: application
 version: 0.0.1
 appVersion: 0.36.0
 dependencies:
-  - name: argo-cd
-    alias: argocd
+  - name: karpenter
     version: ~0.36.0
     repository: oci://public.ecr.aws/karpenter
