@@ -13,16 +13,16 @@ spec:
       - path: argocd/apps/*
   template:
     metadata:
-      name: {{ "{{path.basename}}" }}
+      name: '{{"{{ path.basename }}"}}'
     spec:
       project: default
       source:
         repoURL: git@github.com:vtatarin/lgtm.git
         targetRevision: argocd/init
-        path: {{ "{{path}}" }}
+        path: '{{"{{ path }}"}}'
       destination:
         name: in-cluster
-        namespace: {{ "{{path.basename}}" }}
+        namespace: '{{"{{ path.basename }}"}}'
       syncPolicy:
         automated: {}
         syncOptions:
