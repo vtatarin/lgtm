@@ -8,7 +8,6 @@ argocd:
       https: true
       enabled: true
       controller: aws
-      pathType: ImplementationSpecific
       annotations:
         kubernetes.io/ingress.class: alb
         alb.ingress.kubernetes.io/group.name: argocd
