@@ -1,0 +1,19 @@
+grafana:
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.sandbox.lgtm.vtatarin.xyz
+    annotations:
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/group.name: grafana
+      alb.ingress.kubernetes.io/backend-protocol: HTTPS
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/ssl-redirect: '443'
+      alb.ingress.kubernetes.io/target-type: ip
+  persistence:
+    enabled: true
+    storageClassName: ebs
+  # grafana.ini:
+  #   server:
+  #     root_url: grafana.sandbox.lgtm.vtatarin.xyz
