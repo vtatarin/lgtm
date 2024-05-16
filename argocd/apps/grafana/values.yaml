@@ -5,6 +5,7 @@ grafana:
     hosts:
       - grafana.sandbox.lgtm.vtatarin.xyz
     annotations:
+      kubernetes.io/ingress.class: alb
       alb.ingress.kubernetes.io/group.name: grafana
       alb.ingress.kubernetes.io/backend-protocol: HTTPS
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
