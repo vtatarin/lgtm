@@ -8,7 +8,7 @@ spec:
   generators:
   - git:
       repoURL: git@github.com:vtatarin/lgtm.git
-      revision: argocd/init
+      revision: main
       directories:
       - path: argocd/apps/*
   template:
@@ -18,7 +18,7 @@ spec:
       project: default
       source:
         repoURL: git@github.com:vtatarin/lgtm.git
-        targetRevision: argocd/init
+        targetRevision: main
         path: '{{"{{ path }}"}}'
       destination:
         name: in-cluster
