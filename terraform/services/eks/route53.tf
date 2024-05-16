@@ -9,7 +9,7 @@ data "terraform_remote_state" "route53" {
 
 resource "aws_route53_zone" "main" {
   name    = "${var.environment}.${data.terraform_remote_state.route53.outputs.zone_name}"
-  comment = "Zone for ${var.environment} environment. Associate with EKS cluster: ${module.eks.cluster_name}"
+  comment = "Zone for ${var.environment} environment. Associated with EKS cluster: ${module.eks.cluster_name}"
 }
 
 resource "aws_route53_record" "main_ns" {
