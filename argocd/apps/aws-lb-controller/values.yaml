@@ -1,0 +1,12 @@
+aws-lb-controller:
+  # IMDSv2 is enabled
+  region: us-east-2
+  vpcId: vpc-0dc1150fde3c8c5c3
+  serviceAccount:
+    name: aws-lb-controller
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::437023642520:role/eks-sandbox-aws-lb-controller
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
