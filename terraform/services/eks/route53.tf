@@ -15,6 +15,7 @@ resource "aws_route53_zone" "main" {
 resource "aws_route53_record" "main_ns" {
   name    = aws_route53_zone.main.name
   type    = "NS"
+  ttl     = "300"
   zone_id = data.terraform_remote_state.route53.outputs.zone_id
 
   records = [
