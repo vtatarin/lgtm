@@ -4,7 +4,7 @@ external-dns:
     region: us-east-2
     zoneType: public
   domainFilters:
-    - sandbox.vtatarin.xyz
+    - sandbox.lgtm.vtatarin.xyz
   serviceAccount:
     name: external-dns
     annotations:
