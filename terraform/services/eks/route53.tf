@@ -17,7 +17,12 @@ resource "aws_route53_record" "main_ns" {
   type    = "NS"
   zone_id = data.terraform_remote_state.route53.outputs.zone_id
 
-  records = aws_route53_zone.main.name_servers
+  records = [
+    aws_route53_zone.main.name_servers[0],
+    aws_route53_zone.main.name_servers[1],
+    aws_route53_zone.main.name_servers[2],
+    aws_route53_zone.main.name_servers[3],
+  ]
 }
 
 resource "aws_acm_certificate" "main" {
