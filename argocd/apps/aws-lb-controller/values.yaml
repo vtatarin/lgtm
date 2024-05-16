@@ -2,6 +2,7 @@ aws-lb-controller:
   # IMDSv2 is enabled
   region: us-east-2
   vpcId: vpc-0dc1150fde3c8c5c3
+  clusterName: eks-sandbox
   serviceAccount:
     name: aws-lb-controller
     annotations:
