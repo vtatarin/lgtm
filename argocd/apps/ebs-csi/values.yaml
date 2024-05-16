@@ -1,0 +1,18 @@
+ebs-csi:
+  node:
+    loggingFormat: json
+  controller:
+    serviceAccount:
+      name: external-dns
+      annotations:
+        eks.amazonaws.com/role-arn: arn:aws:iam::437023642520:role/eks-sandbox-ebs-csi
+  storageClasses:
+    - name: ebs
+      annotations:
+        storageclass.kubernetes.io/is-default-class: 'true'
+      volumeBindingMode: WaitForFirstConsumer
+      parameters:
+        csi.storage.k8s.io/fstype: xfs
+        encrypted: 'true'
+        type: gp3
+      allowVolumeExpansion: true

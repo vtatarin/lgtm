@@ -89,6 +89,12 @@ module "irsa" {
     aws-lb-controller = {
       attach_load_balancer_controller_policy = true
     }
+    external-dns = {
+      attach_external_dns_policy = true
+    }
+    ebs-csi = {
+      attach_ebs_csi_policy = true
+    }
   }
 
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
@@ -97,6 +103,8 @@ module "irsa" {
   role_name = "${module.eks.cluster_name}-${each.key}"
 
   attach_load_balancer_controller_policy = lookup(each.value, "attach_load_balancer_controller_policy", false)
+  attach_external_dns_policy             = lookup(each.value, "attach_external_dns_policy", false)
+  attach_ebs_csi_policy                  = lookup(each.value, "attach_ebs_csi_policy", false)
 
   oidc_providers = {
     main = {
