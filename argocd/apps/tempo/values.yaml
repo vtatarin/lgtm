@@ -1,0 +1,25 @@
+tempo:
+  serviceAccount:
+    create: true
+    name: tempo
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::437023642520:role/eks-sandbox-tempo
+  storage:
+    trace:
+      backend: s3
+      s3:
+        region: us-east-2
+        bucket: eks-sandbox-tempo
+  traces:
+    otlp:
+      grpc:
+        enabled: true
+      http:
+        enabled: true
+    zipkin:
+      enabled: false
+    jaeger:
+      thriftHttp:
+        enabled: false
+    opencensus:
+      enabled: false
