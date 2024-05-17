@@ -35,13 +35,13 @@ module "irsa" {
       attach_ebs_csi_policy = true
     }
     tempo = {
-      role_policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+      role_policy_arn = aws_iam_policy.eks_infra_s3["tempo"].arn
     }
     mimir = {
-      role_policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+      role_policy_arn = aws_iam_policy.eks_infra_s3["mimir"].arn
     }
     loki = {
-      role_policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+      role_policy_arn = aws_iam_policy.eks_infra_s3["loki"].arn
     }
   }
 }
