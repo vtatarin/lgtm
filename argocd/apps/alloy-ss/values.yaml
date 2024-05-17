@@ -1,0 +1,11 @@
+alloy:
+  alloy:
+    configMap:
+      create: true
+    clustering:
+      enabled: true
+  controller:
+    type: 'statefulset'
+    replicas: 2
+  crds:
+    create: true

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: mimir
+description: Umbrella chart for alloy
+type: application
+version: 0.1.0
+appVersion: v1.1.0
+dependencies:
+  - name: alloy
+    version: 0.3.0
+    repository: https://grafana.github.io/helm-charts
