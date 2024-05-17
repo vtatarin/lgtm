@@ -7,5 +7,15 @@ alloy:
   controller:
     type: 'statefulset'
     replicas: 2
+    volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: ebs
+        resources:
+          requests:
+            storage: 10Gi
   crds:
     create: true
