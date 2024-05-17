@@ -2,6 +2,7 @@ ebs-csi:
   node:
     loggingFormat: json
   controller:
+    enableMetrics: true
     serviceAccount:
       name: ebs-csi
       annotations:
