@@ -14,6 +14,3 @@ grafana:
   persistence:
     enabled: true
     storageClassName: ebs
-  # grafana.ini:
-  #   server:
-  #     root_url: grafana.sandbox.lgtm.vtatarin.xyz
