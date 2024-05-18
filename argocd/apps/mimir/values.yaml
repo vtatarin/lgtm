@@ -9,6 +9,7 @@ mimir:
       storage:
         backend: s3
         s3:
+          endpoint: s3.us-east-2.amazonaws.com
           bucket_name: eks-sandbox-mimir
           region: us-east-2
     blocks_storage:
