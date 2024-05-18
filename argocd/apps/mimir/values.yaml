@@ -4,23 +4,24 @@ mimir:
     name: mimir
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::437023642520:role/eks-sandbox-mimir
-  structuredConfig:
-    common:
-      storage:
-        backend: s3
+  mimir:
+    structuredConfig:
+      common:
+        storage:
+          backend: s3
+          s3:
+            endpoint: s3.us-east-2.amazonaws.com
+            bucket_name: eks-sandbox-mimir
+            region: us-east-2
+      blocks_storage:
         s3:
-          endpoint: s3.us-east-2.amazonaws.com
-          bucket_name: eks-sandbox-mimir
-          region: us-east-2
-    blocks_storage:
-      s3:
-        storage_prefix: blocks
-    alertmanager_storage:
-      s3:
-        storage_prefix: alertmanager
-    ruler_storage:
-      s3:
-        storage_prefix: ruler
+          storage_prefix: blocks
+      alertmanager_storage:
+        s3:
+          storage_prefix: alertmanager
+      ruler_storage:
+        s3:
+          storage_prefix: ruler
   # small.yaml
   alertmanager:
     persistentVolume:
