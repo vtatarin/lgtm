@@ -86,6 +86,7 @@ data "aws_iam_policy_document" "eks_infra_s3" {
 }
 
 # Hotfix
+# LaunchTemplates are not receiving required tags (?)
 resource "aws_iam_policy" "karpenter" {
   name = "karpenter-hotfix"
   path = "/"
@@ -98,6 +99,7 @@ data "aws_iam_policy_document" "karpenter" {
   statement {
     actions = [
       "ec2:RunInstances",
+      "ec2:DeleteLaunchTemplate",
     ]
 
     resources = ["*"]
