@@ -18,8 +18,14 @@ alloy:
 
         prometheus.operator.podmonitors "primary" {
           forward_to = [prometheus.remote_write.primary.receiver]
+          clustering {
+            enabled = true
+          }
         }
 
         prometheus.operator.servicemonitors "primary" {
           forward_to = [prometheus.remote_write.primary.receiver]
+          clustering {
+            enabled = true
+          }
         }
