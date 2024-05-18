@@ -47,7 +47,7 @@ module "eks" {
   eks_managed_node_groups = {
     init = {
       min_size     = 1
-      max_size     = 5
+      max_size     = 1
       desired_size = 1
 
       instance_types = ["m7i.xlarge"]

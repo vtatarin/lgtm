@@ -4,10 +4,11 @@ module "irsa" {
 
   role_name = "${module.eks.cluster_name}-${each.key}"
 
-  attach_load_balancer_controller_policy     = lookup(each.value, "attach_load_balancer_controller_policy", false)
-  attach_external_dns_policy                 = lookup(each.value, "attach_external_dns_policy", false)
-  attach_ebs_csi_policy                      = lookup(each.value, "attach_ebs_csi_policy", false)
-  attach_karpenter_controller_policy         = lookup(each.value, "attach_karpenter_controller_policy", false)
+  attach_load_balancer_controller_policy = lookup(each.value, "attach_load_balancer_controller_policy", false)
+  attach_external_dns_policy             = lookup(each.value, "attach_external_dns_policy", false)
+  attach_ebs_csi_policy                  = lookup(each.value, "attach_ebs_csi_policy", false)
+  attach_karpenter_controller_policy     = lookup(each.value, "attach_karpenter_controller_policy", false)
+
   enable_karpenter_instance_profile_creation = lookup(each.value, "enable_karpenter_instance_profile_creation", false)
   karpenter_controller_cluster_name          = module.eks.cluster_name
   karpenter_controller_node_iam_role_arns    = [module.eks.eks_managed_node_groups["init"].iam_role_arn]
@@ -41,6 +42,7 @@ module "irsa" {
     karpenter = {
       attach_karpenter_controller_policy         = true
       enable_karpenter_instance_profile_creation = true
+      role_policy_arn                            = aws_iam_policy.karpenter.arn
     }
     tempo = {
       role_policy_arn = aws_iam_policy.eks_infra_s3["tempo"].arn
@@ -80,5 +82,24 @@ data "aws_iam_policy_document" "eks_infra_s3" {
       aws_s3_bucket.eks_infra[each.key].arn,
       "${aws_s3_bucket.eks_infra[each.key].arn}/*",
     ] : flatten([for c in local.mimir_components : [aws_s3_bucket.eks_infra[c].arn, "${aws_s3_bucket.eks_infra[c].arn}/*"]])
+  }
+}
+
+# Hotfix
+resource "aws_iam_policy" "karpenter" {
+  name = "karpenter-hotfix"
+  path = "/"
+
+  policy = data.aws_iam_policy_document.karpenter.json
+}
+
+data "aws_iam_policy_document" "karpenter" {
+
+  statement {
+    actions = [
+      "ec2:RunInstances",
+    ]
+
+    resources = ["*"]
   }
 }
