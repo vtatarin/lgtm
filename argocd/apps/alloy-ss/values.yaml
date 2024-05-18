@@ -63,7 +63,8 @@ alloy:
           forward_to = [loki.write.main.receiver]
 
           rule {
-            action = "labelmap"
-            regex = "__meta_kubernetes_(.+)"
+            action = "replace"
+            source_labels = ["__meta_kubernetes_namespace"]
+            target_label  = "kubernetes_namespace"
           }
         }
