@@ -46,9 +46,9 @@ module "eks" {
   # Init node group for basic workloads to run (e.g. Karpenter, etc.)
   eks_managed_node_groups = {
     init = {
-      min_size     = 2
+      min_size     = 1
       max_size     = 5
-      desired_size = 2
+      desired_size = 1
 
       instance_types = ["m7i.xlarge"]
     }

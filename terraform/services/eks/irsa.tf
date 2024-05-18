@@ -7,6 +7,7 @@ module "irsa" {
   attach_load_balancer_controller_policy = lookup(each.value, "attach_load_balancer_controller_policy", false)
   attach_external_dns_policy             = lookup(each.value, "attach_external_dns_policy", false)
   attach_ebs_csi_policy                  = lookup(each.value, "attach_ebs_csi_policy", false)
+  attach_karpenter_controller_policy     = lookup(each.value, "attach_karpenter_controller_policy", false)
 
   oidc_providers = {
     main = {
@@ -33,6 +34,9 @@ module "irsa" {
     }
     ebs-csi = {
       attach_ebs_csi_policy = true
+    }
+    ebs-csi = {
+      attach_karpenter_controller_policy = true
     }
     tempo = {
       role_policy_arn = aws_iam_policy.eks_infra_s3["tempo"].arn

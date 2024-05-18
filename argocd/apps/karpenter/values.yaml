@@ -1,0 +1,12 @@
+karpenter:
+  serviceAccount:
+    create: true
+    name: karpenter
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::437023642520:role/eks-sandbox-karpenter
+  priorityClassName: system-cluster-critical
+  logConfig:
+    logEncoding: json
+  settings:
+    clusterName: eks-sandbox
+    # interruptionQueue:
