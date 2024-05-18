@@ -4,6 +4,8 @@ alloy:
     replicas: 2
   crds:
     create: true
+  serviceMonitor:
+    enabled: true
   alloy:
     clustering:
       enabled: true

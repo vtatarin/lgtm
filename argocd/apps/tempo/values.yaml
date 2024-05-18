@@ -1,4 +1,7 @@
 tempo:
+  metaMonitoring:
+    serviceMonitor:
+      enabled: true
   serviceAccount:
     create: true
     name: tempo

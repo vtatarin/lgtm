@@ -1,4 +1,6 @@
 karpenter:
+  serviceMonitor:
+    enabled: true
   serviceAccount:
     create: true
     name: karpenter

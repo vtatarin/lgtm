@@ -7,6 +7,8 @@ aws-lb-controller:
     name: aws-lb-controller
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::437023642520:role/eks-sandbox-aws-lb-controller
+  serviceMonitor:
+    enabled: true
   resources:
     requests:
       cpu: 100m
