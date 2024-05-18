@@ -21,7 +21,7 @@ mimir:
     ruler_storage:
       s3:
         storage_prefix: ruler
-  # small.yaml 
+  # small.yaml
   alertmanager:
     persistentVolume:
       enabled: true
