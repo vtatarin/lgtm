@@ -56,6 +56,11 @@ module "eks" {
 
   cluster_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
+  tags = {
+    # Tag node group resources for Karpenter auto-discovery
+    "karpenter.sh/discovery" = "${var.service}-${var.environment}"
+  }
+
   access_entries = {
     "cicd" = {
       principal_arn = data.terraform_remote_state.github_oidc.outputs.cicd_iam_role_arn
