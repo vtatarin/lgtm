@@ -1,11 +1,25 @@
 alloy:
-  alloy:
-    configMap:
-      create: true
-    clustering:
-      enabled: true
   controller:
     type: 'statefulset'
     replicas: 2
   crds:
     create: true
+  alloy:
+    clustering:
+      enabled: true
+    configMap:
+      create: true
+      content: |-
+        prometheus.remote_write "primary" {
+          endpoint {
+            url = "http://10.160.0.4/api/v1/push"
+          }
+        }
+
+        prometheus.operator.podmonitors "primary" {
+          forward_to = [prometheus.remote_write.primary.receiver]
+        }
+
+        prometheus.operator.servicemonitors "primary" {
+          forward_to = [prometheus.remote_write.primary.receiver]
+        }
