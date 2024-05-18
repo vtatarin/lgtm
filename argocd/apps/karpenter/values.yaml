@@ -6,7 +6,7 @@ karpenter:
       eks.amazonaws.com/role-arn: arn:aws:iam::437023642520:role/eks-sandbox-karpenter
   affinity:
     nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
+      preferredDuringSchedulingIgnoredDuringExecution:
         - weight: 1
           preference:
             matchExpressions:
