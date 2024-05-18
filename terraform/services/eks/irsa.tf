@@ -35,7 +35,7 @@ module "irsa" {
     ebs-csi = {
       attach_ebs_csi_policy = true
     }
-    ebs-csi = {
+    karpenter = {
       attach_karpenter_controller_policy = true
     }
     tempo = {
