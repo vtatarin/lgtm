@@ -12,7 +12,7 @@ alloy:
       content: |-
         prometheus.remote_write "primary" {
           endpoint {
-            url = "http://10.160.0.4/api/v1/push"
+            url = "http://mimir-nginx.mimir.svc.cluster.local:80/api/v1/push"
           }
         }
 
