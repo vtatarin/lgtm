@@ -4,6 +4,14 @@ karpenter:
     name: karpenter
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::437023642520:role/eks-sandbox-karpenter
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1
+          preference:
+            matchExpressions:
+              - key: karpenter.sh/nodepool
+                operator: DoesNotExist
   priorityClassName: system-cluster-critical
   logConfig:
     logEncoding: json

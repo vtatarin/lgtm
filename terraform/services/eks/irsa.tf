@@ -4,10 +4,11 @@ module "irsa" {
 
   role_name = "${module.eks.cluster_name}-${each.key}"
 
-  attach_load_balancer_controller_policy = lookup(each.value, "attach_load_balancer_controller_policy", false)
-  attach_external_dns_policy             = lookup(each.value, "attach_external_dns_policy", false)
-  attach_ebs_csi_policy                  = lookup(each.value, "attach_ebs_csi_policy", false)
-  attach_karpenter_controller_policy     = lookup(each.value, "attach_karpenter_controller_policy", false)
+  attach_load_balancer_controller_policy     = lookup(each.value, "attach_load_balancer_controller_policy", false)
+  attach_external_dns_policy                 = lookup(each.value, "attach_external_dns_policy", false)
+  attach_ebs_csi_policy                      = lookup(each.value, "attach_ebs_csi_policy", false)
+  attach_karpenter_controller_policy         = lookup(each.value, "attach_karpenter_controller_policy", false)
+  enable_karpenter_instance_profile_creation = lookup(each.value, "enable_karpenter_instance_profile_creation", false)
 
   oidc_providers = {
     main = {
@@ -36,7 +37,8 @@ module "irsa" {
       attach_ebs_csi_policy = true
     }
     karpenter = {
-      attach_karpenter_controller_policy = true
+      attach_karpenter_controller_policy         = true
+      enable_karpenter_instance_profile_creation = true
     }
     tempo = {
       role_policy_arn = aws_iam_policy.eks_infra_s3["tempo"].arn
