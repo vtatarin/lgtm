@@ -22,6 +22,8 @@ mimir:
       ruler_storage:
         s3:
           bucket_name: eks-sandbox-mimir-ruler
+  metaMonitoring:
+    serviceMonitor: enabled
   # small.yaml
   alertmanager:
     persistentVolume:
