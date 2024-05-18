@@ -8,3 +8,4 @@ dependencies:
   - name: mimir-distributed
     version: 5.4.0-weekly.290
     repository: https://grafana.github.io/helm-charts
+    alias: mimir
