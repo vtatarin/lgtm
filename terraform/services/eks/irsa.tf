@@ -9,6 +9,8 @@ module "irsa" {
   attach_ebs_csi_policy                      = lookup(each.value, "attach_ebs_csi_policy", false)
   attach_karpenter_controller_policy         = lookup(each.value, "attach_karpenter_controller_policy", false)
   enable_karpenter_instance_profile_creation = lookup(each.value, "enable_karpenter_instance_profile_creation", false)
+  karpenter_controller_cluster_name          = module.eks.cluster_name
+  karpenter_controller_node_iam_role_arns    = [module.eks.eks_managed_node_groups["init"].iam_role_arn]
 
   oidc_providers = {
     main = {
