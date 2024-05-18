@@ -58,3 +58,12 @@ alloy:
             enabled = true
           }
         }
+
+        loki.relabel "main" {
+          forward_to = [loki.write.main.receiver]
+
+          rule {
+            action = "labelmap"
+            regex = "__meta_kubernetes_(.+)"
+          }
+        }
