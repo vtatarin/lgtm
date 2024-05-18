@@ -100,6 +100,7 @@ data "aws_iam_policy_document" "karpenter" {
     actions = [
       "ec2:RunInstances",
       "ec2:DeleteLaunchTemplate",
+      "ec2:TerminateInstances",
     ]
 
     resources = ["*"]
