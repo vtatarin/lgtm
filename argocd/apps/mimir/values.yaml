@@ -15,13 +15,13 @@ mimir:
             region: us-east-2
       blocks_storage:
         s3:
-          storage_prefix: blocks
+          bucket_name: eks-sandbox-mimir-blocks
       alertmanager_storage:
         s3:
-          storage_prefix: alertmanager
+          bucket_name: eks-sandbox-mimir-alertmanager
       ruler_storage:
         s3:
-          storage_prefix: ruler
+          bucket_name: eks-sandbox-mimir-ruler
   # small.yaml
   alertmanager:
     persistentVolume:

@@ -55,7 +55,7 @@ module "irsa" {
 }
 
 resource "aws_iam_policy" "eks_infra_s3" {
-  for_each    = local.s3_buckets
+  for_each    = toset(concat(local.components, ["mimir"]))
   name        = "${each.key}-access-policy"
   path        = "/"
   description = "Access policy for ${module.eks.cluster_name} S3 bucket ${each.key}"
@@ -64,7 +64,7 @@ resource "aws_iam_policy" "eks_infra_s3" {
 }
 
 data "aws_iam_policy_document" "eks_infra_s3" {
-  for_each = local.s3_buckets
+  for_each = toset(concat(local.components, ["mimir"]))
 
   statement {
     actions = [
@@ -76,9 +76,9 @@ data "aws_iam_policy_document" "eks_infra_s3" {
       "s3:PutObjectTagging"
     ]
 
-    resources = [
+    resources = each.key != "mimir" ? [
       aws_s3_bucket.eks_infra[each.key].arn,
       "${aws_s3_bucket.eks_infra[each.key].arn}/*",
-    ]
+    ] : flatten([for c in local.mimir_components : [aws_s3_bucket.eks_infra[c].arn, "${aws_s3_bucket.eks_infra[c].arn}/*"]])
   }
 }
