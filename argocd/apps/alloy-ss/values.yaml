@@ -34,8 +34,13 @@ alloy:
         }
 
         // Generic discovery
+        // __meta_kubernetes_namespace
         discovery.kubernetes "pods" {
           role = "pod"
+
+          attach_metadata {
+            node = true
+          }
         }
 
         // Logging
@@ -48,4 +53,8 @@ alloy:
         loki.source.kubernetes "main" {
           targets    = discovery.kubernetes.pods.targets
           forward_to = [loki.write.main.receiver]
+
+          clustering {
+            enabled = true
+          }
         }
