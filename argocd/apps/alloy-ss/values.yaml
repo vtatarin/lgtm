@@ -38,7 +38,7 @@ alloy:
           role = "pod"
 
           attach_metadata {
-             node = true
+            node = true
           }
         }
 
