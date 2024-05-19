@@ -107,16 +107,13 @@ alloy:
             values = ["filename", "tmp_container_runtime", "job", "instance"]
           }
 
-          // stage.multiline {
-          //   firstline     = "^time="
-          //   max_wait_time = "10s"
-          // }
-
           stage.logfmt {
-            service  = "",
-            level    = "",
-            status   = "",
-            trace_id = "",
+            mapping = {
+              "service"  = "",
+              "level"    = "",
+              "status"   = "",
+              "trace_id" = "",
+            }
           }
 
           stage.labels {
