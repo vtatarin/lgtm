@@ -42,10 +42,6 @@ alloy:
 
         discovery.kubernetes "pods" {
           role = "pod"
-
-          // attach_metadata {
-          //   node = true
-          // }
         }
 
         discovery.relabel "pods" {
@@ -82,21 +78,26 @@ alloy:
           }
         }
 
-        loki.relabel "drop" {
-          forward_to = [loki.write.main.receiver]
-          rule {
-            action = "labeldrop"
-            regex = "(job|instance)"
-          }
-        }
+        loki.process "pod_logs" {
+          stage.match {
+            selector = "{tmp_container_runtime=\"containerd\"}"
+            // the cri processing stage extracts the following k/v pairs: log, stream, time, flags
+            stage.cri {}
 
-        loki.source.kubernetes "main" {
-          targets    = discovery.relabel.pods.output
-          forward_to = [loki.write.main.receiver]
-
-          clustering {
-            enabled = true
+            // Set the extract flags and stream values as labels
+            stage.labels {
+              values = {
+                flags  = "",
+                stream  = "",
+              }
+            }
           }
+
+          // Also drop the temporary container runtime label as it is no longer needed.
+          stage.label_drop {
+            values = ["filename", "tmp_container_runtime", "job", "instance"]
+          }
+          forward_to = [loki.process.static_labels.receiver]
         }
 
         loki.process "static_labels" {
@@ -106,6 +107,15 @@ alloy:
             }
           }
           forward_to = [loki.write.main.receiver]
+        }
+
+        loki.source.kubernetes "main" {
+          targets    = discovery.relabel.pods.output
+          forward_to = [loki.write.main.receiver]
+
+          clustering {
+            enabled = true
+          }
         }
 
         loki.write "main" {
