@@ -98,6 +98,24 @@ alloy:
           write_to = [otelcol.exporter.otlp.tempo.input]
         }
 
+        otelcol.receiver.otlp "main" {
+          grpc { }
+
+          http { }
+
+          output {
+            traces = [otelcol.exporter.otlp.tempo.input]
+          }
+        }
+
+        otelcol.processor.k8sattributes "labels" {
+          output {
+            traces = [otelcol.exporter.otlp.tempo.input]
+          }
+
+          passthrough = true
+        }
+
         otelcol.exporter.otlp "tempo" {
           // Send traces to a locally running Tempo without TLS enabled.
           // gRPC
