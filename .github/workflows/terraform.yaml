@@ -21,12 +21,12 @@ jobs:
     strategy:
       matrix:
         workspace: [
-          "437023642520/us-east-2/sandbox"
+          "437023642520/us-east-2/sandbox/eks"
         ]
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       TF_IN_AUTOMATION: true
-      TF_VARS_FILE: ${{ matrix['workspace'] }}
+      TF_VARS_PATH: ${{ matrix['workspace'] }}
       TF_DIR: services/eks
     steps:
     - uses: actions/checkout@v4
@@ -45,7 +45,7 @@ jobs:
 
     - name: Terraform Init - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
       id: init
-      run: terraform -chdir=terraform/${TF_DIR} init
+      run: terraform -chdir=terraform/${TF_DIR} init -backend-config="key=${TF_VARS_PATH}"
 
     - name: Post Init - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
       if: always() && github.ref != 'refs/heads/main' && (steps.init.outcome == 'success' || steps.init.outcome == 'failure')
@@ -57,7 +57,7 @@ jobs:
 
     - name: Terraform Plan - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
       id: plan
-      run: terraform -chdir=terraform/${TF_DIR} plan -out ${TF_VARS_FILE//\//-}.plan -var-file=../../environments/aws/${TF_VARS_FILE}/terraform.tfvars
+      run: terraform -chdir=terraform/${TF_DIR} plan -out ${TF_VARS_PATH//\//-}.plan -var-file=../../environments/${TF_VARS_PATH}/terraform.tfvars
 
     - name: Post Plan - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
       if: always() && github.ref != 'refs/heads/main' && (steps.plan.outcome == 'success' || steps.plan.outcome == 'failure')
@@ -70,4 +70,4 @@ jobs:
     - name: Terraform Apply - ${{ env.TF_DIR }} -> ${{ matrix['workspace'] }}
       id: apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform -chdir=terraform/${TF_DIR} apply ${TF_VARS_FILE//\//-}.plan
+      run: terraform -chdir=terraform/${TF_DIR} apply ${TF_VARS_PATH//\//-}.plan
