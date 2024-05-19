@@ -106,6 +106,12 @@ alloy:
           stage.label_drop {
             values = ["filename", "tmp_container_runtime", "job", "instance"]
           }
+
+          stage.multiline {
+              firstline     = "^time=\"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3})\""
+              max_wait_time = "10s"
+          }
+
           forward_to = [loki.process.static_labels.receiver]
         }
 
