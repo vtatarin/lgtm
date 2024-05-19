@@ -40,5 +40,5 @@ jobs:
         SERVICE: ${{ matrix['service'] }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t $REGISTRY/$SERVICE:$IMAGE_TAG ./argocd/${SERVICE}/src/
+        docker build -t $REGISTRY/$SERVICE:$IMAGE_TAG ./argocd/apps/${SERVICE}/src/
         docker push $REGISTRY/$SERVICE:$IMAGE_TAG
