@@ -39,3 +39,5 @@ application:
     pathType: Prefix
     hosts:
       - host: bar.sandbox.lgtm.vtatarin.xyz
+        paths: 
+        - path: /
