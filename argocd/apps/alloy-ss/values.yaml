@@ -108,7 +108,6 @@ alloy:
           }
 
           stage.regex {
-            // expression = "service=(?P<service>[a-f0-9]+) trace_id=(?P<traceId>[a-f0-9]+)"
             expression = "service=(?P<service>\\w+)\\s+level=(?P<level>\\w+)\\s+.*status=(?P<status>\\d+)\\s+trace_id=(?P<traceId>[a-f0-9]+)"
           }
 

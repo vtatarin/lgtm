@@ -28,6 +28,14 @@ application:
       name: http
       protocol: TCP
       targetPort: 5000
+  serviceMonitor:
+    enabled: true
+    additionalLabels:
+      service: foo
+    endpoints:
+    - interval: 15s
+      path: /metrics
+      port: http
   ingress:
     enabled: true
     ingressClassName: alb
