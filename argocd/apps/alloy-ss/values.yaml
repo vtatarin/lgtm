@@ -51,19 +51,19 @@ alloy:
           }
           rule {
             source_labels = ["__meta_kubernetes_pod_name"]
-            target_label = "namespace"
+            target_label = "pod"
           }
           rule {
             source_labels = ["__meta_kubernetes_pod_container_name"]
-            target_label = "namespace"
+            target_label = "container"
           }
           rule {
             source_labels = ["__meta_kubernetes_pod_container_image"]
-            target_label = "namespace"
+            target_label = "image"
           }
           rule {
             source_labels = ["__meta_kubernetes_pod_node_name"]
-            target_label = "namespace"
+            target_label = "node"
           }
         }
 
