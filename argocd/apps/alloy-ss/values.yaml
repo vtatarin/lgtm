@@ -102,7 +102,7 @@ alloy:
           // Send traces to a locally running Tempo without TLS enabled.
           // gRPC
           client {
-            endpoint = "tempo-distributor.tempo.svc.cluster.local"
+            endpoint = "tempo-distributor.tempo.svc.cluster.local:4317"
 
             tls {
               insecure             = true
