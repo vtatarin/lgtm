@@ -14,7 +14,6 @@ alloy:
       port: 4317
       targetPort: 4317
       protocol: "TCP"
-
     configMap:
       create: true
       content: |-
@@ -119,7 +118,7 @@ alloy:
 
           stage.labels {
             values = {
-              service = "",
+              service = "service_name",
               level   = "",
               status  = "",
               traceId = "",
@@ -154,8 +153,6 @@ alloy:
 
         otelcol.receiver.otlp "main" {
           grpc { }
-
-          http { }
 
           output {
             traces = [otelcol.exporter.otlp.tempo.input]

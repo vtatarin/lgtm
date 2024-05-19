@@ -29,7 +29,7 @@ application:
   serviceMonitor:
     enabled: true
     additionalLabels:
-      service: bar
+      service_name: bar
     endpoints:
     - interval: 15s
       path: /metrics

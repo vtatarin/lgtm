@@ -31,7 +31,7 @@ application:
   serviceMonitor:
     enabled: true
     additionalLabels:
-      service: foo
+      service_name: foo
     endpoints:
     - interval: 15s
       path: /metrics
