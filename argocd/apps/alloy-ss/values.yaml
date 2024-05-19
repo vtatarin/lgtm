@@ -113,12 +113,12 @@ alloy:
           }
 
           stage.regex {
-            expression = "service=(?P<service>\\w+)\\s+level=(?P<level>\\w+)\\s+.*status=(?P<status>\\d+)\\s+trace_id=(?P<traceId>[a-f0-9]+)"
+            expression = "service=(?P<service_name>\\w+)\\s+level=(?P<level>\\w+)\\s+.*status=(?P<status>\\d+)\\s+trace_id=(?P<traceId>[a-f0-9]+)"
           }
 
           stage.labels {
             values = {
-              service = "service_name",
+              service_name = "service_name",
               level   = "",
               status  = "",
               traceId = "",
