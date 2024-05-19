@@ -7,7 +7,7 @@ application:
       AGENT_HOSTNAME:
         value: 1.2.3.4
       BAR_ENDPOINT:
-        value: bar.bar.svc.cluster.local
+        value: http://bar.bar.svc.cluster.local
     image:
       repository: 437023642520.dkr.ecr.us-east-2.amazonaws.com/foo
       tag: 268ce602ed307b87e70ae5e773fa71155e9d2ea0
@@ -38,7 +38,6 @@ application:
       alb.ingress.kubernetes.io/scheme: internet-facing
       alb.ingress.kubernetes.io/ssl-redirect: '443'
       alb.ingress.kubernetes.io/target-type: ip
+    pathType: Prefix
     hosts:
       - host: foo.sandbox.lgtm.vtatarin.xyz
-        paths: 
-        - path: /

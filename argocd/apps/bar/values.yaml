@@ -36,7 +36,6 @@ application:
       alb.ingress.kubernetes.io/scheme: internet-facing
       alb.ingress.kubernetes.io/ssl-redirect: '443'
       alb.ingress.kubernetes.io/target-type: ip
+    pathType: Prefix
     hosts:
       - host: bar.sandbox.lgtm.vtatarin.xyz
-        paths: 
-        - path: /
