@@ -107,13 +107,8 @@ alloy:
             values = ["filename", "tmp_container_runtime", "job", "instance"]
           }
 
-          stage.logfmt {
-            mapping = {
-              "service"  = "",
-              "level"    = "",
-              "status"   = "",
-              "trace_id" = "",
-            }
+          stage.regex {
+              expression = "service=(?P<service>\w+)\s+level=(?P<level>\w+)\s+.*status=(?P<status>\d+)\s+trace_id=(?P<traceId>[a-f0-9]+)"
           }
 
           stage.labels {
@@ -121,7 +116,7 @@ alloy:
               service = "",
               level   = "",
               status  = "",
-              traceId = "trace_id",
+              traceId = "",
             }
           }
 
