@@ -89,3 +89,24 @@ alloy:
             url = "http://loki-gateway.loki.svc.cluster.local:80/loki/api/v1/push"
           }
         }
+
+        // Tracing
+        // Tracing of alloy itself
+        tracing {
+          sampling_fraction = 0.1
+
+          write_to = [otelcol.exporter.otlp.tempo.input]
+        }
+
+        otelcol.exporter.otlp "tempo" {
+          // Send traces to a locally running Tempo without TLS enabled.
+          // gRPC
+          client {
+            endpoint = "tempo-distributor.tempo.svc.cluster.local"
+
+            tls {
+              insecure             = true
+              insecure_skip_verify = true
+            }
+          }
+        }
