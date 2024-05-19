@@ -37,9 +37,9 @@ alloy:
         discovery.kubernetes "pods" {
           role = "pod"
 
-          attach_metadata {
-            node = true
-          }
+          // attach_metadata {
+          //   node = true
+          // }
         }
 
         discovery.relabel "pods" {
