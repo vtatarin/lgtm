@@ -108,7 +108,7 @@ alloy:
           }
 
           stage.multiline {
-              firstline     = "^time=\"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3})\""
+              firstline     = "^time="
               max_wait_time = "10s"
           }
 
