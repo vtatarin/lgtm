@@ -11,5 +11,6 @@ RUN pip install -r requirements.txt
 COPY foo.py ./
 
 EXPOSE 5000
+USER nobody
 
 ENTRYPOINT ["flask", "run"]
