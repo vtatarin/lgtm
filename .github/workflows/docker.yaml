@@ -1,4 +1,4 @@
-name:
+name: Builld and push container images
 
 on:
   pull_request:
