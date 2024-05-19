@@ -123,10 +123,10 @@ alloy:
 
           stage.labels {
             values = {
-              "service"  = "",
-              "level"    = "",
-              "status"   = "",
-              "traceId" = "trace_id",
+              service = "",
+              level   = "",
+              status  = "",
+              traceId = "trace_id",
             }
           }
 
