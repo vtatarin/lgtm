@@ -11,6 +11,7 @@ tempo:
     trace:
       backend: s3
       s3:
+        endpoint: s3.us-east-2.amazonaws.com
         region: us-east-2
         bucket: eks-sandbox-tempo
   traces:
