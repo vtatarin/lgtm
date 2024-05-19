@@ -33,7 +33,7 @@ alloy:
           }
         }
 
-        // Generic discovery
+        // Logging
         discovery.kubernetes "pods" {
           role = "pod"
 
@@ -67,10 +67,11 @@ alloy:
           }
         }
 
-        // Logging
-        loki.write "main" {
-          endpoint {
-            url = "http://loki-gateway.loki.svc.cluster.local:80/loki/api/v1/push"
+        loki.relabel "drop" {
+          forward_to = [loki.write.main.receiver]
+          rule {
+            action = "labeldrop"
+            regex = "job|instance"
           }
         }
 
@@ -80,5 +81,11 @@ alloy:
 
           clustering {
             enabled = true
+          }
+        }
+
+        loki.write "main" {
+          endpoint {
+            url = "http://loki-gateway.loki.svc.cluster.local:80/loki/api/v1/push"
           }
         }
