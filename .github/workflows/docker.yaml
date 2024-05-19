@@ -11,6 +11,9 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+
 jobs:
   terraform:
     runs-on: ubuntu-22.04
