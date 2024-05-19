@@ -113,7 +113,16 @@ alloy:
             traces = [otelcol.exporter.otlp.tempo.input]
           }
 
-          passthrough = true
+          extract {
+            // https://grafana.com/docs/alloy/latest/reference/components/otelcol.processor.k8sattributes/#pod_association-block
+          }
+
+          pod_association {
+            source {
+              from = "resource_attribute"
+              name = "k8s.pod.ip"
+            }
+          }
         }
 
         otelcol.exporter.otlp "tempo" {
