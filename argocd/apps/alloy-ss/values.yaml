@@ -117,17 +117,17 @@ alloy:
               "service"  = "",
               "level"    = "",
               "status"   = "",
-              "trace_id" = ""
+              "trace_id" = "",
             }
           }
 
           stage.labels {
-              values = {
-                "service"  = "",
-                "level"    = "",
-                "status"   = "",
-                "traceId" = "trace_id",
-              }
+            values = {
+              "service"  = "",
+              "level"    = "",
+              "status"   = "",
+              "traceId" = "trace_id",
+            }
           }
 
           forward_to = [loki.process.static_labels.receiver]
