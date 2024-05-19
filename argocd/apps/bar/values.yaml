@@ -1,0 +1,36 @@
+application:
+  applicationName: bar
+  deployment:
+    env:
+      SERVICE:
+        value: "bar"
+      AGENT_HOSTNAME:
+        value: 1.2.3.4
+    image:
+      repository: 437023642520.dkr.ecr.us-east-2.amazonaws.com/bar
+      tag: ''
+    resources:
+      limits:
+        memory: 64Mi
+        cpu: 0.1
+      requests:
+        memory: 64Mi
+        cpu: 0.05
+    ports:
+    - containerPort: 5000
+      name: http
+      protocol: TCP
+  service:
+    ports:
+    - port: 80
+      name: http
+      protocol: TCP
+      targetPort: 5000
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+    hosts:
+      - host: bar.sandbox.lgtm.vtatarin.xyz
+        paths: 
+        - path: /

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: bar
+description: Umbrella chart for bar service
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+dependencies:
+  - name: application
+    version: v4.0.1
+    repository: https://stakater.github.io/stakater-charts

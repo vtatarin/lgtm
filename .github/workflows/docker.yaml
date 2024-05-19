@@ -1,0 +1,40 @@
+name: 
+
+on:
+  pull_request:
+    branches:
+    - main
+    paths:
+    - argocd/apps/foo/src/**
+    - argocd/apps/bar/src/**
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        service: [
+          "foo",
+          "bar"
+        ]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ vars.AWS_IAM_ROLE_ARN }}
+        aws-region: ${{ vars.AWS_REGION }}
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Builld and push ${{ matrix['service'] }} image
+      env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        SERVICE: ${{ matrix['service'] }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t $REGISTRY/$SERVICE:$IMAGE_TAG ./argocd/${SERVICE}/src/
+        docker push $REGISTRY/$SERVICE:$IMAGE_TAG

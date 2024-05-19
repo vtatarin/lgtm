@@ -34,6 +34,12 @@ alloy:
         }
 
         // Logging
+        // Logging of alloy itself
+        logging {
+          level  = "info"
+          format = "logfmt"
+        }
+
         discovery.kubernetes "pods" {
           role = "pod"
 
@@ -65,13 +71,22 @@ alloy:
             source_labels = ["__meta_kubernetes_pod_node_name"]
             target_label = "node"
           }
+
+          // set the container runtime as a label
+          rule {
+            action = "replace"
+            source_labels = ["__meta_kubernetes_pod_container_id"]
+            regex = "^(\\S+):\\/\\/.+$"
+            replacement = "$1"
+            target_label = "tmp_container_runtime"
+          }
         }
 
         loki.relabel "drop" {
           forward_to = [loki.write.main.receiver]
           rule {
             action = "labeldrop"
-            regex = "job|instance"
+            regex = "(job|instance)"
           }
         }
 
@@ -82,6 +97,15 @@ alloy:
           clustering {
             enabled = true
           }
+        }
+
+        loki.process "static_labels" {
+          stage.static_labels {
+            values = {
+              cluster = "eks-sandbox",
+            }
+          }
+          forward_to = [loki.write.main.receiver]
         }
 
         loki.write "main" {
