@@ -113,12 +113,10 @@ alloy:
           // }
 
           stage.logfmt {
-            mapping = {
-              "service"  = "",
-              "level"    = "",
-              "status"   = "",
-              "trace_id" = "",
-            }
+            service  = "",
+            level    = "",
+            status   = "",
+            trace_id = "",
           }
 
           stage.labels {
