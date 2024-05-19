@@ -78,6 +78,15 @@ alloy:
           }
         }
 
+        loki.source.kubernetes "main" {
+          targets    = discovery.relabel.pods.output
+          forward_to = [loki.process.pod_logs.receiver]
+
+          clustering {
+            enabled = true
+          }
+        }
+
         loki.process "pod_logs" {
           stage.match {
             selector = "{tmp_container_runtime=\"containerd\"}"
@@ -107,15 +116,6 @@ alloy:
             }
           }
           forward_to = [loki.write.main.receiver]
-        }
-
-        loki.source.kubernetes "main" {
-          targets    = discovery.relabel.pods.output
-          forward_to = [loki.write.main.receiver]
-
-          clustering {
-            enabled = true
-          }
         }
 
         loki.write "main" {
