@@ -68,7 +68,7 @@ def foo():
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
-def catch_all(path):
+def catch_all(path='meow'):
     return cowsay.get_output_string('cow', path)
 
 @app.after_request
