@@ -9,13 +9,13 @@ on:
     - argocd/apps/bar/src/**
   push:
     branches:
-      - main
+    - main
 
 permissions:
   id-token: write
 
 jobs:
-  terraform:
+  image-build-and-push:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
