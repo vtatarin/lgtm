@@ -11,6 +11,6 @@ RUN pip install -r requirements.txt
 COPY bar.py ./
 
 EXPOSE 5000
-USER nobody
+USER 9000:9000
 
 ENTRYPOINT ["flask", "run"]
