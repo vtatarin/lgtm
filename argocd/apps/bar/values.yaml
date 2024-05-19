@@ -8,7 +8,7 @@ application:
         value: 1.2.3.4
     image:
       repository: 437023642520.dkr.ecr.us-east-2.amazonaws.com/bar
-      tag: 280e56f888228bed03f6638087a6af1b61d12a13
+      tag: 05af9d39128e7fd5458666eff3f75812e0c7a211
     resources:
       limits:
         memory: 64Mi
