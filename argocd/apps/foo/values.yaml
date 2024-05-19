@@ -10,7 +10,7 @@ application:
         value: bar.bar.svc.cluster.local
     image:
       repository: 437023642520.dkr.ecr.us-east-2.amazonaws.com/foo
-      tag: ''
+      tag: 280e56f888228bed03f6638087a6af1b61d12a13
     resources:
       limits:
         memory: 64Mi
