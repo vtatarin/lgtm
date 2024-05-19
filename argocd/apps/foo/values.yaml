@@ -7,7 +7,7 @@ application:
       AGENT_HOSTNAME:
         value: "alloy-ss.alloy-ss.svc.cluster.local"
       BAR_ENDPOINT:
-        value: "http://bar.bar.svc.cluster.local:5000"
+        value: "http://bar.bar.svc.cluster.local:5000/bar"
     image:
       repository: 437023642520.dkr.ecr.us-east-2.amazonaws.com/foo
       tag: 6d5590f0a95fa73f042ce29b44a855b4a8181791
