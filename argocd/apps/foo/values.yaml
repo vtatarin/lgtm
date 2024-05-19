@@ -48,6 +48,6 @@ application:
       alb.ingress.kubernetes.io/target-type: ip
     hosts:
       - host: foo.sandbox.lgtm.vtatarin.xyz
-        paths: 
+        paths:
         - path: /
           pathType: Prefix
