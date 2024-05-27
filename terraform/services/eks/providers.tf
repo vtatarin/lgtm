@@ -8,6 +8,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "lgtm-pg"
+    key    = "services/eks"
     region = "us-east-1"
   }
   required_version = "~> 1.8"

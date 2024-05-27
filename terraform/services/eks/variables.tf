@@ -15,5 +15,5 @@ variable "eks_version" {
 }
 
 variable "eks_public_access" {
-  type = string
+  type = bool
 }

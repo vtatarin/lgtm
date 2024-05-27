@@ -13,6 +13,7 @@ data "terraform_remote_state" "github_oidc" {
   backend = "s3"
   config = {
     bucket = "lgtm-pg"
+    key    = "global/github-oidc"
     region = "us-east-1"
   }
 }

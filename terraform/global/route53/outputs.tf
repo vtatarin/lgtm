@@ -1,4 +1,4 @@
-output "lgtm_vtatarin_xyz_ns" {
+output "lgtm_pvlbnkl_xyz_ns" {
   value = aws_route53_zone.lgtm_pvlbnkl_xyz.name_servers
 }
 
