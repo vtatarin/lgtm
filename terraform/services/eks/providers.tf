@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-2"
+  region = "us-east-1"
   default_tags {
     tags = local.default_tags
   }
@@ -7,8 +7,8 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "lgtm-playground-tfstate-20240510003852147300000001"
-    region = "us-east-2"
+    bucket = "lgtm-pg"
+    region = "us-east-1"
   }
   required_version = "~> 1.8"
 }

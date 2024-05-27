@@ -12,9 +12,8 @@ data "aws_subnets" "eks" {
 data "terraform_remote_state" "github_oidc" {
   backend = "s3"
   config = {
-    bucket = "lgtm-playground-tfstate-20240510003852147300000001"
-    key    = "global/github-oidc"
-    region = "us-east-2"
+    bucket = "lgtm-pg"
+    region = "us-east-1"
   }
 }
 
@@ -77,8 +76,8 @@ module "eks" {
         }
       }
     }
-    "valerii.tatarin" = {
-      principal_arn = "arn:aws:iam::437023642520:user/valerii.tatarin"
+    "AdministratorAccess" = {
+      principal_arn = "arn:aws:iam::245582572290:role/aws-reserved/sso.amazonaws.com/AWSReservedSSO_AdministratorAccess_20232cf5120c756c"
 
       policy_associations = {
         admin = {

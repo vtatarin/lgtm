@@ -20,3 +20,5 @@ terraform.rc
 
 # Helm
 **/charts/*
+
+.DS_Store

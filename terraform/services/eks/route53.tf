@@ -1,9 +1,9 @@
 data "terraform_remote_state" "route53" {
   backend = "s3"
   config = {
-    bucket = "lgtm-playground-tfstate-20240510003852147300000001"
+    bucket = "lgtm-pg"
     key    = "global/route53"
-    region = "us-east-2"
+    region = "us-east-1"
   }
 }
 

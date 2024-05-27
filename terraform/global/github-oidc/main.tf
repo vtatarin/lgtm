@@ -1,11 +1,12 @@
-# Already exists in the AWS account
-# resource "aws_iam_openid_connect_provider" "github_oidc" {
-#   client_id_list = [
-#     "sts.amazonaws.com",
-#   ]
-#   thumbprint_list = ["1b511abead59c6ce207077c0bf0e0043b1382612"]
-#   url             = "https://token.actions.githubusercontent.com"
-# }
+data "tls_certificate" "github" {
+  url = "https://token.actions.githubusercontent.com/.well-known/openid-configuration"
+}
+
+resource "aws_iam_openid_connect_provider" "github_oidc" {
+   url             = "https://token.actions.githubusercontent.com"
+   client_id_list  = ["sts.amazonaws.com"]
+   thumbprint_list = [data.tls_certificate.github.certificates[0].sha1_fingerprint]
+ }
 
 
 data "aws_iam_policy_document" "github_oidc_assume" {
@@ -14,8 +15,7 @@ data "aws_iam_policy_document" "github_oidc_assume" {
     actions = ["sts:AssumeRoleWithWebIdentity"]
     principals {
       type        = "Federated"
-      identifiers = ["arn:aws:iam::437023642520:oidc-provider/token.actions.githubusercontent.com"] # mocked
-      # identifiers = [aws_iam_openid_connect_provider.githubOidc.arn]
+      identifiers = [aws_iam_openid_connect_provider.github_oidc.arn]
     }
     condition {
       test     = "StringEquals"
@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "github_oidc_assume" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:vtatarin/lgtm:*"]
+      values   = ["repo:pbunakalia/lgtm:*"]
     }
   }
 }

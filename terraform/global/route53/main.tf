@@ -1,3 +1,3 @@
-resource "aws_route53_zone" "lgtm_vtatarin_xyz" {
-  name = "lgtm.vtatarin.xyz"
+resource "aws_route53_zone" "lgtm_pvlbnkl_xyz" {
+  name = "lgtm.pvlbnkl.xyz"
 }

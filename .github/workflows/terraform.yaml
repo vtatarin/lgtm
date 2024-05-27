@@ -21,7 +21,7 @@ jobs:
     strategy:
       matrix:
         workspace: [
-          "437023642520/us-east-2/sandbox/eks"
+          "245582572290/us-east-1/sandbox/eks"
         ]
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
